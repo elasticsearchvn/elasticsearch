@@ -1,0 +1,49 @@
+{
+  "template": "log-web-access-*",
+  "settings": {
+    "index": {      
+      "analysis": {
+        "analyzer": {
+          "path_hierarchy": {
+            "type": "custom",
+            "tokenizer": "path_hierarchy"
+          }
+        }
+      }
+    }
+  },
+  "mappings": {
+    "web": {
+      "_all": {
+        "enabled": false
+      },
+      "dynamic_templates": [
+        {
+          "string_fields": {
+            "mapping": {
+              "ignore_above": 32000,
+              "norms": false,
+              "type": "keyword"
+            },
+            "match_mapping_type": "string"
+          }
+        }
+      ],
+      "properties": {        
+        "path": {
+          "type": "keyword",
+          "fields": {
+            "text": {
+              "type": "text"
+            },
+            "part": {
+              "type": "text",
+              "analyzer": "path_hierarchy",
+              "fielddata": true
+            }
+          }
+        }
+      }
+    }
+  }
+}
